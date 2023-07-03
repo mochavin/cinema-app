@@ -1,82 +1,71 @@
-## Example app using MongoDB
+<p align="center">
+  <img src="/public/preview.png" alt='preview'>
+</p>
+<p align="center">
+  Source code of <a href='https://sea-cinema.netlify.app/'>Cinema-app</a>. Made using next.js and tailwind-css with mongoDB.
+</p>
 
-[MongoDB](https://www.mongodb.com/) is a general purpose, document-based, distributed database built for modern application developers and for the cloud era. This example will show you how to connect to and use MongoDB as your backend for your Next.js app.
+## Cinema Website
 
-If you want to learn more about MongoDB, visit the following pages:
+This is a cinema website built with Next.js, Tailwind CSS, and MongoDB. The website provides various features such as user registration, login, logout, top-up balance, withdrawal, seat ordering, ticket refunding, transaction history, and more.
 
-- [MongoDB Atlas](https://mongodb.com/atlas)
-- [MongoDB Documentation](https://docs.mongodb.com/)
+## Features
 
-## Deploy your own
+- User registration: Users can create new accounts on the website.
+- Login and logout: Registered users can log in and log out of their accounts.
+- Top-up balance: Users can add funds to their account balance.
+- Withdrawal: Users can withdraw funds from their account balance.
+- Seat ordering: Users can select and book seats for a particular movie.
+- Ticket refunding: Users can request a refund for their movie tickets.
+- Transaction history: Users can view their past transactions on the website.
 
-Once you have access to the environment variables you'll need, deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+## Technologies Used
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?project-name=with-mongodb&repository-name=with-mongodb&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-mongodb&integration-ids=oac_jnzmjqM10gllKmSrG0SGrHOH)
+- Next.js: A React framework for server-side rendering and building web applications.
+- Tailwind CSS: A utility-first CSS framework for rapidly building custom designs.
+- MongoDB: A NoSQL database for storing user information and transaction history.
 
-## How to use
+## Getting Started
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-mongodb with-mongodb-app
-```
-
-```bash
-yarn create next-app --example with-mongodb with-mongodb-app
-```
-
-```bash
-pnpm create next-app --example with-mongodb with-mongodb-app
-```
-
-## Configuration
-
-### Set up a MongoDB database
-
-Set up a MongoDB database either locally or with [MongoDB Atlas for free](https://mongodb.com/atlas).
-
-### Set up environment variables
-
-Copy the `env.local.example` file in this directory to `.env.local` (which will be ignored by Git):
+To get started with the project, follow the instructions below:
 
 ```bash
-cp .env.local.example .env.local
-```
-
-Set each variable on `.env.local`:
-
-- `MONGODB_URI` - Your MongoDB connection string. If you are using [MongoDB Atlas](https://mongodb.com/atlas) you can find this by clicking the "Connect" button for your cluster.
-
-### Run Next.js in development mode
-
-```bash
+git clone https://github.com/mochavin/cinema-app.git
+cd cinema-app
 npm install
-npm run dev
-
-# or
-
-yarn install
-yarn dev
 ```
 
-Your app should be up and running on [http://localhost:3000](http://localhost:3000)! If it doesn't work, post on [GitHub discussions](https://github.com/vercel/next.js/discussions).
+Configure the MongoDB connection:
+- Open the `.env` file and replace the placeholder values with your MongoDB connection details.
 
-You will either see a message stating "You are connected to MongoDB" or "You are NOT connected to MongoDB". Ensure that you have provided the correct `MONGODB_URI` environment variable.
+Run the development server
 
-When you are successfully connected, you can refer to the [MongoDB Node.js Driver docs](https://mongodb.github.io/node-mongodb-native/3.4/tutorials/collections/) for further instructions on how to query your database.
+```bash
+npm run dev
+```
+In your browser, open `http://localhost:3000/init` to initialize the database with initial data. This step should be done only once to populate the database.
 
-## Deploy on Vercel
+Open your browser and visit `http://localhost:3000` to see the website.
 
-You can deploy this app to the cloud with [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+## Deploying to Netlify
 
-#### Deploy Your Local Project
+Deploying to Netlify
 
-To deploy your local project to Vercel, push it to GitHub/GitLab/Bitbucket and [import to Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example).
+```bash
+npm install netlify-cli -g
+netlify login
+npm run build
+netlify deploy
+```
 
-**Important**: When you import your project on Vercel, make sure to click on **Environment Variables** and set them to match your `.env.local` file.
+Follow the prompts from the CLI to select the deployment options.
+Once the deployment is complete, Netlify will provide you with a URL for your live website.
+Don't forget to initialize the database with initial data (open `http://localhost:3000/init`). This step should be done only once to populate the database.
 
-#### Deploy from Our Template
+## Contributing
 
-Alternatively, you can deploy using our template by clicking on the Deploy button below.
+Contributions are welcome! If you find any issues or have suggestions for improvement, please open an issue or submit a pull request.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?project-name=with-mongodb&repository-name=with-mongodb&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-mongodb&integration-ids=oac_jnzmjqM10gllKmSrG0SGrHOH)
+## License
+
+This project is licensed under the [MIT License, Copyright (c) 2023 Avin](./LICENSE).

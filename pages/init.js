@@ -31,7 +31,7 @@ export default function Kabeh() {
 
   return (
     <div>
-      <h1>Halaman Kabeh</h1>
+      <h1>Success</h1>
     </div>
   );
 }
