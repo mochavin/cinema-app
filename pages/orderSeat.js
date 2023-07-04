@@ -8,6 +8,7 @@ import Cookies from 'universal-cookie';
 import Link from 'next/link';
 import Back from '@/components/Back';
 import Head from 'next/head';
+import Image from 'next/image';
 
 export default function SeatBooking() {
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -19,7 +20,10 @@ export default function SeatBooking() {
   const [alert, setAlert] = useState('');
   const [idFilm, setIdFilm] = useState('');
   const [userAge, setUserAge] = useState(90);
-  const [navbar, setNavbar] = useState(<Navbar balance='-' setOrderBalance={setBalance}/>);
+  const [navbar, setNavbar] = useState(
+    <Navbar balance={0} setOrderBalance={setBalance} />
+  );
+  const [isFilmReady, setIsFilmReady] = useState(false);
 
   const getFilm = async () => {
     let res = await fetch('/api/getfilm');
@@ -39,6 +43,7 @@ export default function SeatBooking() {
       .then((data) => {
         setAvalSeats(data.seats);
         setFilm(data);
+        setIsFilmReady(true);
       });
 
     fetch('/api/getUser/' + cookies.get('_id'))
@@ -46,7 +51,9 @@ export default function SeatBooking() {
       .then((data) => {
         setBalance(data.balance);
         setUserAge((new Date().getTime() - data.birthDate) / 31536000000);
-        setNavbar(<Navbar balance={data.balance} setOrderBalance={setBalance}/>);
+        setNavbar(
+          <Navbar balance={data.balance} setOrderBalance={setBalance} />
+        );
       });
   }, []);
 
@@ -111,48 +118,55 @@ export default function SeatBooking() {
     });
     setBalance(balance - film.ticket_price * selectedSeats.length);
     setNavbar(
-      <Navbar balance={balance - film.ticket_price * selectedSeats.length} setOrderBalance={setBalance} />
+      <Navbar
+        balance={balance - film.ticket_price * selectedSeats.length}
+        setOrderBalance={setBalance}
+      />
     );
-    // setAvalSeats([...avalSeats, ...selectedSeats]);
     setSelectedSeats([]);
   };
 
   return (
     <>
-      {/* <Navbar setBalanceBook={setBalance} BalanceBook={balance} /> */}
       <Head>
         <title>{film.title}</title>
       </Head>
-      {navbar}
-      <Back/>
-      <div className='flex items-center justify-around max-sm:column-2 flex-wrap pt-3'>
-        {alert}
-        <div className='basis-1/6 justify-items-center max-sm:basis-1/2'>
-          <img
-            src={film.poster_url}
-            alt='Movie Poster'
-            width={200}
-            height={200}
-          />
-          Ticket price: Rp. {film.ticket_price}
-        </div>
-        <div className=' basis-2/5 max-sm:basis-1/2'>
-          <h1 className=' font-bold'>{film.title}</h1>
-          <div>{film.release_date}</div>
-          <p>
-            {film.description}
-            <br></br>
-            Age rating: {film.age_rating}
-          </p>
-        </div>
-        <div>
-          <h1 className='text-center text-2xl font-bold mb-4'>Seat Booking</h1>
-          <div className='grid grid-cols-8 gap-1 w-full max-w-md mx-auto'>
-            {/* {...avalSeats} */}
-            {avalSeats.map((value, index) => (
-              <button
-                key={index}
-                className={`p-2  text-sm text-center
+      {isFilmReady && (
+        <>
+          {navbar}
+          <Back />
+          <div className='flex items-center justify-around max-sm:column-2 flex-wrap pt-3'>
+            {alert}
+            <div className='basis-1/6 justify-items-center max-sm:basis-1/2'>
+              <Image
+                alt='Movie Poster'
+                width={200}
+                height={300}
+                src={film.poster_url}
+                quality={100}
+                placeholder='blur'
+                blurDataURL='/blur.png'
+              />
+              Ticket price: Rp. {film.ticket_price}
+            </div>
+            <div className=' basis-2/5 max-sm:basis-1/2'>
+              <h1 className=' font-bold'>{film.title}</h1>
+              <div>{film.release_date}</div>
+              <p>
+                {film.description}
+                <br></br>
+                Age rating: {film.age_rating}
+              </p>
+            </div>
+            <div>
+              <h1 className='text-center text-2xl font-bold mb-4'>
+                Seat Booking
+              </h1>
+              <div className='grid grid-cols-8 gap-1 w-full max-w-md mx-auto'>
+                {avalSeats.map((value, index) => (
+                  <button
+                    key={index}
+                    className={`p-2  text-sm text-center
                 ${
                   value == 0
                     ? 'bg-green-500 cursor-pointer'
@@ -160,38 +174,41 @@ export default function SeatBooking() {
                 }
                 ${selectedSeats.includes(index) && 'bg-sky-500'}
                 `}
-                onClick={() => handleSeatClick(index)}
-                disabled={value != 0 || userAge < film.age_rating}
-              >
-                {index + 1}
-              </button>
-            ))}
-          </div>
-          Selected Seats: {selectedSeats.map((value) => value + 1).join(', ')}
-          <div className=''>
-            Total: Rp.{selectedSeats.length * film.ticket_price}
-          </div>
-          <div className='pt-4'>
-            <Button
-              type='submit'
-              onClick={handleOrderClick}
-              disabled={userAge < film.age_rating}
-            >
-              Order
-            </Button>
-            {userAge < film.age_rating ? (
-              <div className='text-center text-red-200 bg-red-500 rounded-md opacity-90 m-2 p-2'>
-                You are not old enough to watch this movie
-                <br />
-                You need to be {film.age_rating} years old and you are{' '}
-                {Math.floor(userAge)} years old
+                    onClick={() => handleSeatClick(index)}
+                    disabled={value != 0 || userAge < film.age_rating}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
               </div>
-            ) : (
-              <></>
-            )}
+              Selected Seats:{' '}
+              {selectedSeats.map((value) => value + 1).join(', ')}
+              <div className=''>
+                Total: Rp.{selectedSeats.length * film.ticket_price}
+              </div>
+              <div className='pt-4'>
+                <Button
+                  type='submit'
+                  onClick={handleOrderClick}
+                  disabled={userAge < film.age_rating}
+                >
+                  Order
+                </Button>
+                {userAge < film.age_rating ? (
+                  <div className='text-center text-red-200 bg-red-500 rounded-md opacity-90 m-2 p-2'>
+                    You are not old enough to watch this movie
+                    <br />
+                    You need to be {film.age_rating} years old and you are{' '}
+                    {Math.floor(userAge)} years old
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 }

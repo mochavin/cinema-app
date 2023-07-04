@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Back from '@/components/Back';
 import Head from 'next/head';
 import Alert from '@/components/Alert';
+import Image from 'next/image';
 
 export default function pages() {
   const [history, setHistory] = useState([]);
@@ -118,9 +119,14 @@ export default function pages() {
             className=' h-40 w-80 flex bg-blue-50 m-3 rounded-xl shadow-xl p-1 text-center hover:scale-105 transition space-y-1 text-md'
           >
             <div className='basis-2/5'>
-              <img
+              <Image
                 src={v.description.poster_url}
                 className='h-full rounded-s-xl '
+                width={100}
+                height={150}
+                quality={25}
+                placeholder='blur'
+                blurDataURL='/blur.png'
               />
             </div>
             <div className='flex flex-col justify-center place-items-center m-2'>
