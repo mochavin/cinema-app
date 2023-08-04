@@ -11,7 +11,6 @@ export default function Kabeh() {
     fetch("/api/addFilm", opt)
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
       });
   };
 

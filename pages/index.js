@@ -49,10 +49,8 @@ export default function MyApp() {
 
   const handleLogin = () => {
     setIsClick(true);
-    console.log('cek');
     login(user, pass)
       .then((v) => {
-        console.log(v);
         setIsClick(false);
         setTimeout(() => {
           setAlert('');

@@ -3,7 +3,6 @@ import { ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
   const { userId } = req.query;
-  console.log(req.query);
   const client = await clientPromise;
   const _id = {_id : ObjectId(userId)};
   const db = client.db("cinema-fix");

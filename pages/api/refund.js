@@ -15,7 +15,6 @@ export default async (req, res) => {
     .find({ _id: ObjectId(data._id) })
     .toArray();
 
-  console.log(history);
 
   if (history.length === 0) {
     return res.status(400).json({ message: "History not found" });
@@ -54,7 +53,6 @@ export default async (req, res) => {
   
   film[0].seats[history[0].seat] = 0;
 
-  console.log(film[0].seats);
 
   const uppp = await db
     .collection("films")
@@ -63,10 +61,8 @@ export default async (req, res) => {
       { $set: { seats: film[0].seats } }
     );
 
-  console.log(uppp);
 
   // insert to histories
-  console.log(history[0]);
   const result = await db.collection("histories").insertOne({
     userId: history[0].user_id.toString(),
     filmId: history[0].film_id,
@@ -76,7 +72,6 @@ export default async (req, res) => {
     price: film[0].ticket_price,
   });
 
-  console.log(result);
 
   return res.status(200).json(history);
 

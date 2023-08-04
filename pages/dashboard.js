@@ -8,7 +8,7 @@ import FilmCard from '@/components/FilmCard';
 
 export default function dashboard() {
   const [film, setFilm] = useState([]);
-  const [navbar, setNavbar] = useState(<Navbar balance='-' />);
+  const [navbar, setNavbar] = useState('');
   const [isFilmReady, setIsFilmReady] = useState(false);
 
   const router = useRouter();
@@ -19,36 +19,49 @@ export default function dashboard() {
       router.push('/');
     }
 
-    fetch('/api/getUser/' + cookies.get('_id'))
-      .then((res) => res.json())
-      .then((json) => {
-        setNavbar(<Navbar balance={json.balance} />);
-      });
+    try {
+      fetch('/api/getUser/' + cookies.get('_id'))
+        .then((res) => res.json())
+        .then((json) => {
+          setNavbar(<Navbar balance={json.balance} />);
+        });
 
-    fetch('/api/getFilm')
-      .then((res) => res.json())
-      .then((json) => {
-        setFilm(json);
-        setIsFilmReady(true);
-      });
+      fetch('/api/getFilm')
+        .then((res) => res.json())
+        .then((json) => {
+          setFilm(json);
+        });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsFilmReady(true);
+    }
   }, []);
+
+  if (!isFilmReady)
+    return (
+      <>
+        <Head>
+          <title>Loading...</title>
+        </Head>
+        <div className='flex justify-center items-center h-screen'>
+          <p className='text-2xl font-bold animate-bounce'>Loading...</p>
+        </div>
+      </>
+    );
 
   return (
     <>
-      {isFilmReady && (
-        <>
-          <Head>
-            <title>Dashboard</title>
-          </Head>
-          {navbar}
-          <div className='flex justify-center items-center text-2xl font-bold mt-5'>
-            <p>Dashboard</p>
-          </div>
-          <div className='flex flex-wrap justify-center text-black'>
-            <FilmCard film={film} />
-          </div>
-        </>
-      )}
+      <Head>
+        <title>Dashboard</title>
+      </Head>
+      {navbar}
+      <div className='flex justify-center items-center text-2xl font-bold mt-5'>
+        <p>Dashboard</p>
+      </div>
+      <div className='flex flex-wrap justify-center text-black'>
+        <FilmCard film={film} />
+      </div>
     </>
   );
 }
