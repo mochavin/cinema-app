@@ -38,28 +38,27 @@ export default function dashboard() {
     }
   }, []);
 
-  if (!isFilmReady)
-    return (
-      <>
-        <Head>
-          <title>Loading...</title>
-        </Head>
-        <div className='flex justify-center items-center h-screen'>
-          <p className='text-2xl font-bold animate-bounce'>Loading...</p>
-        </div>
-      </>
-    );
-
   return (
     <>
-      <Head>
-        <title>Dashboard</title>
-      </Head>
-      {navbar}
-      <div className='flex justify-center items-center text-2xl font-bold mt-5'>
-        <p>Dashboard</p>
-      </div>
-      <div className='flex flex-wrap justify-center text-black'>
+      {!isFilmReady && (
+        <>
+          <Head>
+            <title>Loading...</title>
+          </Head>
+          <div className='flex justify-center items-center h-screen'>
+            <p className='text-2xl font-bold animate-bounce'>Loading...</p>
+          </div>
+          {/* <FilmCard film={film} /> */}
+        </>
+      )}
+      <div style={{ display: isFilmReady ? 'block' : 'none' }}>
+        <Head>
+          <title>Dashboard</title>
+        </Head>
+        {navbar}
+        <div className='flex justify-center items-center text-2xl font-bold mt-5'>
+          <p>Dashboard</p>
+        </div>
         <FilmCard film={film} />
       </div>
     </>
