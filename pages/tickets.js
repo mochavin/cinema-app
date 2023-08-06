@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar';
+import TicketCard from '@/components/TicketCard';
 import { useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
 import Button from '../app/components/Button';
@@ -112,46 +113,7 @@ export default function pages() {
 
       <Back />
 
-      <div className='flex flex-wrap justify-center text-black'>
-        {history.map((v, i) => (
-          <div
-            key={i}
-            className=' h-40 w-80 flex bg-blue-50 m-3 rounded-xl shadow-xl p-1 text-center hover:scale-105 transition space-y-1 text-md'
-          >
-            <div className='basis-2/5'>
-              <Image
-                src={v.description.poster_url}
-                className='h-full rounded-s-xl '
-                width={100}
-                height={150}
-                quality={25}
-                placeholder='blur'
-                blurDataURL='/blur.png'
-              />
-            </div>
-            <div className='flex flex-col justify-center place-items-center m-2'>
-              <div className='text-md basis-1/5'> {v.description.title} </div>
-              <div className='text-md opacity-80 basis-1/3'>
-                seat : {v.seat + 1} <br />
-                price : {v.description.ticket_price}
-              </div>
-              <div className='text-md basis-1/3 space-x-2'>
-                <Button
-                  type='submit'
-                  onClick={() => {
-                    router.push(`/orderSeat?id=${v.description._id}`);
-                  }}
-                >
-                  Details
-                </Button>
-                <Button type='submit' onClick={() => handleRefund(v._id)}>
-                  Refund
-                </Button>
-              </div>
-            </div>
-          </div>
-        )).reverse()}
-      </div>
+      <TicketCard history={history}/>
     </>
   );
 }

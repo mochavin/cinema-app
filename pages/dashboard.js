@@ -56,9 +56,7 @@ export default function dashboard() {
           <title>Dashboard</title>
         </Head>
         {navbar}
-        <div className='flex justify-center items-center text-2xl font-bold mt-5'>
-          <p>Dashboard</p>
-        </div>
+        
         <FilmCard film={film} />
       </div>
     </>
