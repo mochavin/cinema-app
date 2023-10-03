@@ -137,7 +137,7 @@ export default function SeatBooking() {
           <div className='flex justify-center items-center h-screen'>
             <svg
               aria-hidden='true'
-              class='inline w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300'
+              className='inline w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300'
               viewBox='0 0 100 101'
               fill='none'
               xmlns='http://www.w3.org/2000/svg'

@@ -48,7 +48,6 @@ export default function dashboard() {
           <div className='flex justify-center items-center h-screen'>
             <p className='text-2xl font-bold animate-bounce'>Loading...</p>
           </div>
-          {/* <FilmCard film={film} /> */}
         </>
       )}
       <div style={{ display: isFilmReady ? 'block' : 'none' }}>

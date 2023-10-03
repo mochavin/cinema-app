@@ -9,12 +9,12 @@ export default function TicketCard({ history }) {
   const router = useRouter();
   return (
     <>
-      {isLoading && (
+      {history.length > 0 && isLoading && (
         <div className='fixed h-screen w-full bg-[#1e1b4b]'>
           <div className='flex justify-center items-center h-screen'>
             <svg
               aria-hidden='true'
-              class='inline w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300'
+              className='inline w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300'
               viewBox='0 0 100 101'
               fill='none'
               xmlns='http://www.w3.org/2000/svg'
@@ -33,7 +33,7 @@ export default function TicketCard({ history }) {
         </div>
       )}
       <div onLoad={() => setIsLoading(false)} className='flex flex-wrap justify-center text-black'>
-        {history
+        {history.length > 0 && history
           .map((v, i) => (
             <div
               key={i}

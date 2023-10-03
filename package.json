@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@heathmont/moon-core-tw": "^10.9.0",
     "mongodb": "^4.8.1",
     "next": "latest",
     "react": "^18.2.0",

@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     .find(_id)
     .toArray();
 
-  if(history.length > 0){
+  if(history.length >= 0){
     return res.status(200).json(history);
   }
   return res.status(404).json({message: "History not found"});

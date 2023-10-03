@@ -13,7 +13,7 @@ export default function FilmCard({ film }) {
           <div className='flex justify-center items-center h-screen'>
             <svg
               aria-hidden='true'
-              class='inline w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300'
+              className='inline w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300'
               viewBox='0 0 100 101'
               fill='none'
               xmlns='http://www.w3.org/2000/svg'
@@ -46,34 +46,15 @@ export default function FilmCard({ film }) {
               className=' h-80 w-40 bg-gray-200 m-3 rounded-xl shadow-xl p-1 text-center hover:scale-105 transition space-y-1 text-md'
             >
               <div className='w-full h-3/4 bg-gray-200 rounded-t-xl'>
-                {isLoading ? (
-                  <>
-                    <img
-                      src={v.poster_url}
-                      className='w-full h-full rounded-t-xl animate-pulse object-none'
-                      width={200}
-                      height={300}
-                      quality={100}
-                      priority={false}
-                      alt='film poster'
-                      // onLoad={() => setIsLoading(false)}
-                      style={{ display: 'none' }}
-                    />
-                    <div className='w-[152px] h-[234px] bg-gray-400 animate-pulse'>
-                      {' '}
-                    </div>
-                  </>
-                ) : (
-                  <img
-                    src={v.poster_url}
-                    className='w-full h-full rounded-t-xl'
-                    width={200}
-                    height={300}
-                    quality={100}
-                    priority={false}
-                    alt='film poster'
-                  />
-                )}
+                <img
+                  src={v.poster_url}
+                  className='w-full h-full rounded-t-xl'
+                  width={200}
+                  height={300}
+                  quality={100}
+                  priority={false}
+                  alt='film poster'
+                />
               </div>
               <div className='w-full h-1/4 bg-gray-200 rounded-b-xl flex flex-col justify-center items-center'>
                 <div className='w-full h-1/2 flex justify-center items-center '>
