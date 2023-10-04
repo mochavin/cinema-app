@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
 import Alert from './Alert';
 import { useRouter } from 'next/router';
+import { Button, Input, Modal } from '@heathmont/moon-core-tw';
 
 export default function Navbar({ refundBalance, setOrderBalance, ...props }) {
   const [accClicked, setAccClicked] = useState(false);
@@ -51,10 +52,12 @@ export default function Navbar({ refundBalance, setOrderBalance, ...props }) {
 
   const handleTopUp = () => {
     setTopUpClicked(!topUpClicked);
+    setAccClicked(false);
   };
 
   const handleClickWithdraw = () => {
     setWithdrawClicked(!withdrawClicked);
+    setAccClicked(false);
   };
 
   const handleLogOut = () => {
@@ -107,7 +110,7 @@ export default function Navbar({ refundBalance, setOrderBalance, ...props }) {
           setTimeout(() => {
             setAlert('');
           }, 2000);
-          throw "stop";
+          throw 'stop';
         }
         return res.json();
       })
@@ -173,78 +176,112 @@ export default function Navbar({ refundBalance, setOrderBalance, ...props }) {
           </Alert>
         )}
       </div>
-      {accClicked && (
-        <div className='grid grid-row fixed top-[10%] right-[4%] h-2/5 w-[14%] max-md:w-40 bg-slate-900 rounded space-y-1 p-1 text-center opacity-95 z-20'>
-          <div className=' bg-slate-800 cursor-default basis-1/6 flex justify-center items-center rounded text-xs font-bold'>
-            Balance: {balance}
-          </div>
-          <div
-            className=' bg-slate-800 basis-1/6 flex justify-center items-center rounded text-md font-bold hover:bg-slate-700 cursor-pointer'
-            onClick={handleClickTicket}
-          >
-            Your Ticket
-          </div>
-          <div
-            className=' bg-slate-800 basis-1/6 flex justify-center items-center rounded text-sm font-bold hover:bg-slate-700 cursor-pointer'
-            onClick={() => router.push('/history')}
-          >
-            Transaction History
-          </div>
-          {!withdrawClicked && (
-            <div
-              className=' bg-slate-800 basis-1/6 flex justify-center items-center rounded text-md font-bold hover:bg-slate-700 cursor-pointer'
-              onClick={handleClickWithdraw}
-            >
-              Withdraw
-            </div>
-          )}
-          {withdrawClicked && (
-            <div className='flex basis-1/6 justify-center items-center space-x-2'>
-              <div className='flex basis-[90%]'>
-                <input
-                  type='number'
-                  className='bg-slate-800 text-white rounded w-full pl-2 font-xs  focus:outline-none p-1'
-                  placeholder='Input'
-                  onChange={(e) => setInputWithdraw(e.target.value)}
-                />
-              </div>
-              <div className='flex basis-[10%] bg-slate-700 p-1 rounded hover:bg-slate-800 font-semibold text-blue-100 hover:text-blue-500'>
-                <button onClick={HandleWithdraw}>OK</button>
-              </div>
-            </div>
-          )}
-
-          {!topUpClicked && (
-            <div
-              className=' text-green-500 animate-pulse cursor-pointer basis-1/6 flex justify-center items-center rounded text-md font-bold hover:scale-110 transition'
-              onClick={handleTopUp}
-            >
-              Top Up
-            </div>
-          )}
-          {topUpClicked && (
-            <div className='flex basis-1/6 justify-center items-center space-x-2'>
-              <div className='flex basis-[90%]'>
-                <input
-                  type='number'
-                  className='bg-slate-800 text-white rounded w-full pl-2 font-xs  focus:outline-none p-1'
-                  placeholder='Input'
-                  onChange={(e) => setInputBalance(e.target.value)}
-                />
-              </div>
-              <div className='flex basis-[10%] bg-slate-700 p-1 rounded hover:bg-slate-800 font-semibold text-blue-100 hover:text-blue-500'>
-                <button onClick={HandleTopUpButton}>OK</button>
-              </div>
-            </div>
-          )}
-          <div
-            className=' bg-slate-900 text-red-400 cursor-pointer basis-1/4 flex justify-center items-center rounded text-md font-bold hover:bg-slate-700'
-            onClick={handleLogOut}
-          >
-            Logout
-          </div>
+      <div
+        className={`grid grid-row fixed top-[10%] right-[4%] h-[300px] w-[14%] max-md:w-40 bg-slate-900 rounded space-y-1 p-1 text-center z-20 ${
+          accClicked ? 'opacity-95' : 'opacity-0'
+        } ease-in-out transition-all duration-300`}
+      >
+        <div className=' bg-slate-800 cursor-default basis-1/6 flex justify-center items-center rounded text-xs font-bold'>
+          Balance: {balance}
         </div>
-      )}
+        <div
+          className=' bg-slate-800 basis-1/6 flex justify-center items-center rounded text-md font-bold hover:bg-slate-700 cursor-pointer'
+          onClick={handleClickTicket}
+        >
+          Your Ticket
+        </div>
+        <div
+          className=' bg-slate-800 basis-1/6 flex justify-center items-center rounded text-sm font-bold hover:bg-slate-700 cursor-pointer'
+          onClick={() => router.push('/history')}
+        >
+          Transaction History
+        </div>
+        <div
+          className=' bg-slate-800 basis-1/6 flex justify-center items-center rounded text-md font-bold hover:bg-slate-700 cursor-pointer'
+          onClick={handleClickWithdraw}
+        >
+          Withdraw
+        </div>
+        <Modal open={withdrawClicked} onClose={handleClickWithdraw}>
+          <Modal.Backdrop className='bg-black opacity-40' />
+          <Modal.Panel className='bg-slate-800 text-white shadow-xl shadow-black gap-4 flex flex-col p-4'>
+            <div className='flex w-full text-center justify-center font-bold'>
+              <h1>Inputkan nominal Withdraw</h1>
+            </div>
+            <div className=''>
+              <Input
+                type='number'
+                placeholder=''
+                id='custom-style'
+                className='bg-slate-700 text-piccolo'
+                onChange={(e) => setInputWithdraw(e.target.value)}
+              />
+            </div>
+            <div className='flex items-center justify-center text-white gap-2'>
+              <Button
+                variant='outline'
+                onClick={HandleWithdraw}
+                className='bg-blue-500 rounded-xl font-bold'
+              >
+                Submit
+              </Button>
+              <Button
+                variant='outline'
+                onClick={handleClickWithdraw}
+                className='bg-slate-700 rounded-xl font-bold'
+              >
+                Cancel
+              </Button>
+            </div>
+          </Modal.Panel>
+        </Modal>
+
+        <div
+          className=' text-green-500 animate-pulse cursor-pointer basis-1/6 flex justify-center items-center rounded text-md font-bold hover:scale-110 transition'
+          onClick={handleTopUp}
+        >
+          Top Up
+        </div>
+        <Modal open={topUpClicked} onClose={handleTopUp}>
+          <Modal.Backdrop className='bg-black opacity-40' />
+          <Modal.Panel className='bg-slate-800 text-white shadow-xl shadow-black gap-4 flex flex-col p-4'>
+            <div className='flex w-full text-center justify-center font-bold'>
+              <h1>Inputkan nominal Top Up</h1>
+            </div>
+            <div className=''>
+              <Input
+                type='number'
+                placeholder=''
+                id='custom-style'
+                className='bg-slate-700 text-piccolo'
+                onChange={(e) => setInputBalance(e.target.value)}
+              />
+            </div>
+            <div className='flex items-center justify-center text-white gap-2'>
+              <Button
+                variant='outline'
+                onClick={HandleTopUpButton}
+                className='bg-blue-500 rounded-xl font-bold'
+              >
+                Submit
+              </Button>
+              <Button
+                variant='outline'
+                onClick={handleTopUp}
+                className='bg-slate-700 rounded-xl font-bold'
+              >
+                Cancel
+              </Button>
+            </div>
+          </Modal.Panel>
+        </Modal>
+        <div
+          className=' bg-slate-900 text-red-400 cursor-pointer basis-1/4 flex justify-center items-center rounded text-md font-bold hover:bg-slate-700'
+          onClick={handleLogOut}
+        >
+          Logout
+        </div>
+      </div>
 
       <div
         className='flex bg-indigo-950 pr-6 top-0 w-full border-b-2 border-white h-[10%] justify-end sticky items-center space-x-3 z-20'
