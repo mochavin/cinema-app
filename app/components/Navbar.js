@@ -177,8 +177,8 @@ export default function Navbar({ refundBalance, setOrderBalance, ...props }) {
         )}
       </div>
       <div
-        className={`grid grid-row fixed top-[10%] right-[4%] h-[300px] w-[14%] max-md:w-40 bg-slate-900 rounded space-y-1 p-1 text-center z-20 ${
-          accClicked ? 'opacity-95' : 'opacity-0'
+        className={`grid grid-row fixed top-[72px] right-[4%] h-[300px] w-[14%] max-md:w-40 bg-slate-900 rounded space-y-1 p-1 text-center z-20 ${
+          !accClicked && 'hidden'
         } ease-in-out transition-all duration-300`}
       >
         <div className=' bg-slate-800 cursor-default basis-1/6 flex justify-center items-center rounded text-xs font-bold'>
