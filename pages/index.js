@@ -7,6 +7,13 @@ import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { Modal } from '@heathmont/moon-core-tw';
+// import lib/firebase
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// creste suth snf googlr provider
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import firebaseConfig from '@/lib/config';
 
 export default function MyApp() {
   const [isClick, setIsClick] = useState(false);
@@ -69,7 +76,7 @@ export default function MyApp() {
       .catch((e) => {
         setIsClick(false);
       });
-  }
+  };
 
   const handleLogin = () => {
     setIsClick(true);
@@ -93,6 +100,42 @@ export default function MyApp() {
 
   const registerClick = () => {
     router.push('/register');
+  };
+
+  const handleLoginFirebase = async () => {
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+
+    const auth = getAuth();
+    const googleProvider = new GoogleAuthProvider();
+
+    let a = await signInWithPopup(auth, googleProvider)
+    if(a.user){
+      let body = {
+        name: a.user.displayName,
+        username: a.user.email,
+        password: a.user.uid,
+      };
+  
+      const opt = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      };
+  
+      let res = await fetch('/api/loginFirebase', opt);
+      let json = await res.json();
+      if (!json._id) return setAlert(<Alert type='failed'>{json.message}</Alert>);
+  
+      cookies.set('_id', json._id, { path: '/' });
+      router.push('/dashboard');
+
+      console.log(json)
+  
+      return setAlert(<Alert type='success'>Login Success</Alert>);
+    }
   };
 
   useEffect(() => {
@@ -119,7 +162,11 @@ export default function MyApp() {
             </Button>
           </div>
           <div className='justify-center flex'>
-            <Button type='login' onClick={() => setIsOpen(false)} disabled={isClick}>
+            <Button
+              type='login'
+              onClick={() => setIsOpen(false)}
+              disabled={isClick}
+            >
               Login as user
             </Button>
             {alert}
@@ -129,9 +176,19 @@ export default function MyApp() {
               Register
             </Button>
           </div>
+          {/* login with firebase */}
+          <div className='justify-center flex'>
+            <Button type='register' onClick={handleLoginFirebase}>
+              Login with firebase
+            </Button>
+          </div>
         </Modal.Panel>
       </Modal>
-      <div className={`w-full h-screen flex justify-center static items-center text-black ${isOpen && 'hidden'}`}>
+      <div
+        className={`w-full h-screen flex justify-center static items-center text-black ${
+          isOpen && 'hidden'
+        }`}
+      >
         <div className='absolute bg-white w-full min-[600px]:w-1/2 py-12 rounded-md flex flex-col '>
           <div className='flex justify-center font-bold text-4xl basis-1/3 pb-8 items-center text-slate-900'>
             Login
